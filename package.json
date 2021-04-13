@@ -1,6 +1,6 @@
 {
   "name": "zoo-ui",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/mycomp.ssr.js",
   "browser": "dist/mycomp.esm.js",
@@ -46,5 +46,9 @@
   },
   "engines": {
     "node": ">=8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:govo/zoo-ui.git"
   }
 }
