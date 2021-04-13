@@ -1,50 +1,99 @@
-var script$2 = /*#__PURE__*/{
-  name: 'MycompSample',
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// @ is an alias to /src
+var script$1 = {
+  name: 'GameSelector',
+  props: {
+    gameList: {
+      type: Array,
 
-  // vue component name
-  data() {
-    return {
-      counter: 5,
-      initCounter: 5,
-      message: {
-        action: null,
-        amount: null
+      default() {
+        return [];
       }
+
+    },
+    gameId: {
+      type: Number
+    },
+    maxHeight: {
+      type: Number,
+      default: 0
+    }
+  },
+  data: function () {
+    return {
+      selectedGameId: 0
     };
   },
 
+  created() {},
+
   computed: {
-    changedBy() {
-      const {
-        message
-      } = this;
-      if (!message.action) return 'initialized';
-      return `${message.action} ${message.amount || ''}`.trim();
+    _maxHeight() {
+      return this.maxHeight || Math.max(window.innerHeight - 150, 200);
+    },
+
+    gameName() {
+      return this.findGamebyId(this.selectedGameId).name;
     }
 
   },
+
+  mounted() {},
+
   methods: {
-    increment(arg) {
-      const amount = typeof arg !== 'number' ? 1 : arg;
-      this.counter += amount;
-      this.message.action = 'incremented by';
-      this.message.amount = amount;
+    findGamebyId(gameId) {
+      gameId = +gameId;
+      let game = {};
+      this.gameList.forEach(item => {
+        if (item._id === gameId) {
+          game = item;
+        }
+      });
+      return game;
     },
 
-    decrement(arg) {
-      const amount = typeof arg !== 'number' ? 1 : arg;
-      this.counter -= amount;
-      this.message.action = 'decremented by';
-      this.message.amount = amount;
-    },
-
-    reset() {
-      this.counter = this.initCounter;
-      this.message.action = 'reset';
-      this.message.amount = null;
+    gameSelect(gameId) {
+      let game = this.findGamebyId(gameId);
+      this.selectedGameId = gameId;
+      this.$emit('change', game);
     }
 
-  }
+  },
+  components: {}
 };
 
 function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
@@ -174,174 +223,6 @@ function addStyle(id, css) {
         }
     }
 }
-
-/* script */
-const __vue_script__$2 = script$2;
-/* template */
-
-var __vue_render__$2 = function () {
-  var _vm = this;
-
-  var _h = _vm.$createElement;
-
-  var _c = _vm._self._c || _h;
-
-  return _c('div', {
-    staticClass: "mycomp-sample"
-  }, [_c('p', [_vm._v("The counter was " + _vm._s(_vm.changedBy) + " to "), _c('b', [_vm._v(_vm._s(_vm.counter))]), _vm._v(".")]), _vm._v(" "), _c('button', {
-    on: {
-      "click": _vm.increment
-    }
-  }, [_vm._v("\n    Click +1\n  ")]), _vm._v(" "), _c('button', {
-    on: {
-      "click": _vm.decrement
-    }
-  }, [_vm._v("\n    Click -1\n  ")]), _vm._v(" "), _c('button', {
-    on: {
-      "click": function ($event) {
-        return _vm.increment(5);
-      }
-    }
-  }, [_vm._v("\n    Click +5\n  ")]), _vm._v(" "), _c('button', {
-    on: {
-      "click": function ($event) {
-        return _vm.decrement(5);
-      }
-    }
-  }, [_vm._v("\n    Click -5\n  ")]), _vm._v(" "), _c('button', {
-    on: {
-      "click": _vm.reset
-    }
-  }, [_vm._v("\n    Reset\n  ")])]);
-};
-
-var __vue_staticRenderFns__$2 = [];
-/* style */
-
-const __vue_inject_styles__$2 = function (inject) {
-  if (!inject) return;
-  inject("data-v-077bffac_0", {
-    source: ".mycomp-sample[data-v-077bffac]{display:block;width:400px;margin:25px auto;border:1px solid #ccc;background:#eaeaea;text-align:center;padding:25px}.mycomp-sample p[data-v-077bffac]{margin:0 0 1em}",
-    map: undefined,
-    media: undefined
-  });
-};
-/* scoped */
-
-
-const __vue_scope_id__$2 = "data-v-077bffac";
-/* module identifier */
-
-const __vue_module_identifier__$2 = undefined;
-/* functional template */
-
-const __vue_is_functional_template__$2 = false;
-/* style inject SSR */
-
-/* style inject shadow dom */
-
-const __vue_component__$2 = /*#__PURE__*/normalizeComponent({
-  render: __vue_render__$2,
-  staticRenderFns: __vue_staticRenderFns__$2
-}, __vue_inject_styles__$2, __vue_script__$2, __vue_scope_id__$2, __vue_is_functional_template__$2, __vue_module_identifier__$2, false, createInjector, undefined, undefined);
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-// @ is an alias to /src
-var script$1 = {
-  name: 'GameSelector',
-  props: {
-    gameList: {
-      type: Array,
-
-      default() {
-        return [];
-      }
-
-    },
-    gameId: {
-      type: Number
-    },
-    maxHeight: {
-      type: Number,
-      default: 0
-    }
-  },
-  data: function () {
-    return {
-      selectedGameId: 0
-    };
-  },
-
-  created() {},
-
-  computed: {
-    _maxHeight() {
-      return this.maxHeight || Math.max(window.innerHeight - 150, 200);
-    },
-
-    gameName() {
-      return this.findGamebyId(this.selectedGameId).name;
-    }
-
-  },
-
-  mounted() {},
-
-  methods: {
-    findGamebyId(gameId) {
-      gameId = +gameId;
-      let game = {};
-      this.gameList.forEach(item => {
-        if (item._id === gameId) {
-          game = item;
-        }
-      });
-      return game;
-    },
-
-    gameSelect(gameId) {
-      let game = this.findGamebyId(gameId);
-      this.selectedGameId = gameId;
-      this.$emit('change', game);
-    }
-
-  },
-  components: {}
-};
 
 /* script */
 const __vue_script__$1 = script$1;
@@ -597,7 +478,6 @@ const __vue_component__ = /*#__PURE__*/normalizeComponent({
 
 var components = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  MycompSample: __vue_component__$2,
   GameSelector: __vue_component__$1,
   ChannelSelector: __vue_component__
 });
@@ -611,4 +491,4 @@ const install = function installMycomp(Vue) {
 }; // Create module definition for Vue.use()
 
 export default install;
-export { __vue_component__ as ChannelSelector, __vue_component__$1 as GameSelector, __vue_component__$2 as MycompSample };
+export { __vue_component__ as ChannelSelector, __vue_component__$1 as GameSelector };

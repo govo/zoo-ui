@@ -11,15 +11,23 @@ import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
 import cssPlugin from 'rollup-plugin-scss';
 import CleanCSS from 'clean-css';
-import { writeFileSync, existsSync, mkdirSync } from 'fs';
+import { writeFileSync, existsSync, mkdirSync, unlinkSync, readdirSync } from 'fs';
 
-const STYLE_DIR = 'dist/styles/'
+const STYLE_FOLDER = 'dist/styles/'
+const DIST_FOLDER = 'dist/'
 const inlineStyle = true
 
-if (!existsSync(path.resolve(STYLE_DIR))) {
-  mkdirSync(path.resolve(STYLE_DIR))
-}
+function ensureFolders () {
+  const distFolder = path.resolve(DIST_FOLDER)
+  const styleFolder = path.resolve(STYLE_FOLDER)
 
+  const files = readdirSync(distFolder)
+  for (const file of files) {
+    unlinkSync(path.join(distFolder, file))
+  }
+  mkdirSync(styleFolder)
+}
+ensureFolders()
 
 // Get browserslist config and remove ie from es build targets
 const esbrowserslist = fs.readFileSync('./.browserslistrc')
@@ -78,7 +86,7 @@ const baseConfig = {
           file = path.basename(key)
           file = file.split('?')[0]
           file = file.replace(path.extname(file), '')
-          writeFileSync(path.resolve(STYLE_DIR, file + '.css'), new CleanCSS().minify(styles).styles)
+          writeFileSync(path.resolve(STYLE_FOLDER, file + '.css'), new CleanCSS().minify(styles).styles)
         }
       },
     }
@@ -109,7 +117,7 @@ if (!argv.format || argv.format === 'es') {
     input: 'src/entry.esm.js',
     external,
     output: {
-      file: 'dist/mycomp.esm.js',
+      file: 'dist/zoo-ui.esm.js',
       format: 'esm',
       exports: 'named',
     },
@@ -142,9 +150,9 @@ if (!argv.format || argv.format === 'cjs') {
     external,
     output: {
       compact: true,
-      file: 'dist/mycomp.ssr.js',
+      file: 'dist/zoo-ui.ssr.js',
       format: 'cjs',
-      name: 'Mycomp',
+      name: 'ZooUI',
       exports: 'auto',
       globals,
     },
@@ -172,9 +180,9 @@ if (!argv.format || argv.format === 'iife') {
     external,
     output: {
       compact: true,
-      file: 'dist/mycomp.min.js',
+      file: 'dist/zoo-ui.min.js',
       format: 'iife',
-      name: 'Mycomp',
+      name: 'ZooUI',
       exports: 'auto',
       globals,
     },
