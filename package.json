@@ -1,11 +1,11 @@
 {
   "name": "zoo-ui",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
-  "main": "dist/mycomp.ssr.js",
-  "browser": "dist/mycomp.esm.js",
-  "module": "dist/mycomp.esm.js",
-  "unpkg": "dist/mycomp.min.js",
+  "main": "dist/zoo-ui.ssr.js",
+  "browser": "dist/zoo-ui.esm.js",
+  "module": "dist/zoo-ui.esm.js",
+  "unpkg": "dist/zoo-ui.min.js",
   "files": [
     "dist/*",
     "src/**/*.vue"
@@ -13,10 +13,10 @@
   "sideEffects": false,
   "scripts": {
     "serve": "vue-cli-service serve dev/serve.js",
-    "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
-    "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
-    "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
-    "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"
+    "build": "rm -f -r dist && cross-env NODE_ENV=production rollup --config build/rollup.config.js",
+    "build:ssr": "rm -f -r dist && cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
+    "build:es": "rm -f -r dist && cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
+    "build:unpkg": "rm -f -r dist && cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"
   },
   "dependencies": {},
   "devDependencies": {

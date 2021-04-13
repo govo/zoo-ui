@@ -484,7 +484,7 @@ var components = /*#__PURE__*/Object.freeze({
 
 // Import vue components
 
-const install = function installMycomp(Vue) {
+const install = function ZooUI(Vue) {
   Object.entries(components).forEach(([componentName, component]) => {
     Vue.component(componentName, component);
   });

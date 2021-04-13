@@ -21,11 +21,12 @@ function ensureFolders () {
   const distFolder = path.resolve(DIST_FOLDER)
   const styleFolder = path.resolve(STYLE_FOLDER)
 
-  const files = readdirSync(distFolder)
-  for (const file of files) {
-    unlinkSync(path.join(distFolder, file))
-  }
-  mkdirSync(styleFolder)
+  // const files = readdirSync(distFolder)
+  // for (const file of files) {
+  //   unlinkSync(path.join(distFolder, file))
+  // }
+  mkdirSync(distFolder)
+  if (!inlineStyle) mkdirSync(styleFolder)
 }
 ensureFolders()
 
