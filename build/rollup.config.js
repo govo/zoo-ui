@@ -11,7 +11,15 @@ import { terser } from 'rollup-plugin-terser';
 import minimist from 'minimist';
 import cssPlugin from 'rollup-plugin-scss';
 import CleanCSS from 'clean-css';
-import path from 'path';
+import { writeFileSync, existsSync, mkdirSync } from 'fs';
+
+const STYLE_DIR = 'dist/styles/'
+const inlineStyle = true
+
+if (!existsSync(path.resolve(STYLE_DIR))) {
+  mkdirSync(path.resolve(STYLE_DIR))
+}
+
 
 // Get browserslist config and remove ie from es build targets
 const esbrowserslist = fs.readFileSync('./.browserslistrc')
@@ -44,7 +52,7 @@ const baseConfig = {
       'process.env.NODE_ENV': JSON.stringify('production'),
     },
     vue: {
-      css: true,
+      css: inlineStyle,
       preprocessStyles: true,
       template: {
         isProduction: true,
@@ -63,13 +71,15 @@ const baseConfig = {
     },
     css: {
       output: function (styles, styleNodes) {
+        if (inlineStyle) return
         let file = ''
         for (let key in styleNodes) {
+          let styles = styleNodes[key]
           file = path.basename(key)
           file = file.split('?')[0]
           file = file.replace(path.extname(file), '')
+          writeFileSync(path.resolve(STYLE_DIR, file + '.css'), new CleanCSS().minify(styles).styles)
         }
-        writeFileSync(path.resolve('dist/styles/' + file + '.css'), new CleanCSS().minify(styles).styles)
       },
     }
   },
@@ -141,6 +151,7 @@ if (!argv.format || argv.format === 'cjs') {
     plugins: [
       replace(baseConfig.plugins.replace),
       ...baseConfig.plugins.preVue,
+      // cssPlugin(baseConfig.plugins.css),
       vue({
         ...baseConfig.plugins.vue,
         template: {
@@ -148,7 +159,6 @@ if (!argv.format || argv.format === 'cjs') {
           optimizeSSR: true,
         },
       }),
-      cssPlugin(baseConfig.plugins.css),
       ...baseConfig.plugins.postVue,
       babel(baseConfig.plugins.babel),
     ],
@@ -172,7 +182,7 @@ if (!argv.format || argv.format === 'iife') {
       replace(baseConfig.plugins.replace),
       ...baseConfig.plugins.preVue,
       vue(baseConfig.plugins.vue),
-      cssPlugin(baseConfig.plugins.css),
+      // cssPlugin(baseConfig.plugins.css),
       ...baseConfig.plugins.postVue,
       babel(baseConfig.plugins.babel),
       terser({
