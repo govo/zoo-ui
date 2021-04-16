@@ -33,6 +33,5 @@ export default Vue.extend({
 <template>
   <div id="app">
     <GameSelector @change="change" :gameList="gameList" />
-    <mycomp-sample />
   </div>
 </template>
